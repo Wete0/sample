@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Mouse Controlled Frame Animation</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#viewer {
+    width: 300px;      /* 한 프레임 너비 */
+    height: 300px;     /* 한 프레임 높이 */
+    background-image: url("sprite.png"); /* 가로로 프레임이 붙은 이미지 */
+    background-repeat: no-repeat;
+    background-size: 3000px 300px; /* (프레임수 × 프레임너비) */
+}
+</style>
+</head>
+
+<body>
+
+<div id="viewer"></div>
+
+<script>
+const viewer = document.getElementById("viewer");
+
+const totalFrames = 10;
+const frameWidth = 300;
+
+document.addEventListener("mousemove", (e) => {
+
+    const screenWidth = window.innerWidth;
+
+    // 마우스 위치를 0~1 범위로 변환
+    const ratio = e.clientX / screenWidth;
+
+    // 오른쪽 끝 = 0번, 왼쪽 끝 = 마지막 프레임
+    const reversedRatio = 1 - ratio;
+
+    // 프레임 계산
+    const frameIndex = Math.floor(reversedRatio * (totalFrames - 1));
+
+    // 배경 위치 이동
+    viewer.style.backgroundPosition = `-${frameIndex * frameWidth}px 0px`;
+});
+</script>
+
+</body>
+</html>
